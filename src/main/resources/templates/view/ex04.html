@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--타임리프 문법 쓰겠다고 선언-->
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	타임리프 인클루드<br/>
+	<!--replace로 가지고옴 fragment와 태그를 맞추는게 좋다! 아니면 th:block쓰거나-->
+	replace 경로 참조시는 ~{경로(절대경로) :: 이름}
+	<div th:replace="~{/include/layout01 :: part1}"></div>
+	<th:block th:replace="~{/include/layout01 :: part2}"></th:block>
+
+
+	<h3>파일을 통째로 가져오기</h3>
+	<th:block th:replace="~{/include/layout02}"></th:block>
+
+</body>
+</html>

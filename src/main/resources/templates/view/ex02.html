@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--타임리프 문법 쓰겠다고 선언-->
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	타임리프 제어문 if문 unless문에는 동일한 조건을 작성
+	<div th:with="a = 10">
+		<span th:if="${a == 20}">a는 20입니다</span>
+		<span th:unless="${a == 20}">a는 20이 아닙니다</span>		
+	</div>
+	
+	<hr/>
+	vo의 참조
+	<div th:if="${vo.first == '홍길동'}">홍길동입니다</div>
+	<div th:unless="${vo.first == '홍길동'}">홍길동이 아닙니다</div>
+
+	<hr/>
+	삼항연산자
+	<div>[[${vo.first == '이순신' ? '이순신' : '이순신이 아닙니다'}]]</div>
+	
+	<hr/>
+	
+	타임리프 반복문
+	
+	<ul>
+		<li th:each="vo : ${list}"> <!--반복문은 향상된 for문만 가능함!! th:each="변수명 : ${리스트}"-->
+			[[${vo.sno}]]<br/>
+			[[${vo.first}]]<br/>
+			[[${vo.regdate}]]<br/>
+		</li>
+	</ul>
+	
+	
+	타임리프 반복문 status변수
+	<ul>
+		<li th:each="vo, status : ${list}"> <!--status : index나 count값, current값인 index와 count를 사용-->
+			인덱스번호 : [[${status.index}]]<br/>
+			순서번호 : [[${status.count}]]<br/>
+			[[${status}]] <!--전체 상태값 출력됨-->
+		</li>
+	</ul>
+	
+	<hr/>
+	타임리프 반복문과 if문
+	<ul>
+		<li th:each="vo : ${list}" th:if="${vo.sno % 2 == 0}"> <!--for문 내용과 if문 내용을 같이 써준다!-->
+			짝수일 때만 출력 : [[${vo.sno}]]
+		</li>
+	</ul>
+	
+	<ul>
+		<li th:each="vo : ${list}"> <!--이 경우 전체적으로 반복문이 돌지만 짝수번째만 출력되고 홀수번째는 비는 형태가 됨 => unless문 쓴다-->
+			<span th:if="${vo.sno % 2 == 0}">짝수</span>
+			<span th:unless="${vo.sno % 2 == 0}">홀수</span>
+		</li>
+	</ul>
+	
+	
+	
+</body>
+</html>
