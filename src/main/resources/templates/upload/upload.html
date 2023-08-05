@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>파일 업로드하기</h3>
+
+	<h3>단일파일 업로드</h3>
+	<!--꼬오오오오옥!! enctype="multipart/form-data"-->
+	<form action="upload_ok" method="post" enctype="multipart/form-data"> <!--enctype 반드시 넣어줄 것!!꼭!!-->
+	
+		<input type="file" name="file">
+		<input type="submit" value="파일올리기">	
+		
+	</form>
+	
+	<h3> 복수태그를 사용한 다중파일 업로드 - List(MultipartFile) </h3>
+	<form action="upload_ok2" method="post" enctype="multipart/form-data"> <!--enctype 반드시 넣어줄 것!!꼭!!-->
+	
+		<input type="file" name="file">
+		<input type="file" name="file">
+		<input type="file" name="file">
+		<input type="submit" value="파일올리기">	
+		
+	</form>
+	
+	
+	<h3>multiple 옵션을 사용한 다중파일 업로드</h3>
+	<form action="upload_ok3" method="post" enctype="multipart/form-data">
+		<input type="file" name="file" multiple="multiple">
+		
+		<input type="submit" value="파일올리기">
+	</form>
+	
+	
+	
+	<!-- 비동기방식으로 파일 업로드하기 -->
+	
+	<div>
+		<h3>비동기방식으로 처리하기</h3>
+		<input type="file" name="file_a">
+		<button onclick="upload()">비동기업로드하기</button>
+	</div>
+	
+	
+	<script src = "https://code.jquery.com/jquery-3.7.0.min.js"></script> <!--제이쿼리 사용하기 위한 경로 설정(공식홈페이지)-->
+	
+	<script>
+		
+		function upload() {
+		
+		//1. 파일데이터 얻기
+		var file = $("input[name='file_a']");
+			console.log(file); //jquery 함수
+			console.log(file[0]); //input태그
+			console.log(file[0].files); //파일객체
+			console.log(file[0].files[0]); //파일데이터
+		
+		//2. 폼객체
+		var formData = new FormData();
+		formData.append("file", file[0].files[0]); //키, 데이터
+		
+		//3. 전송
+		$.ajax({
+			url : "upload_ok4",
+			type : "post",
+			data : formData, //폼데이터
+			contentType : false, //multipart/form-data형식으로 자동선언
+			processData : false, //jquery가 폼데이터를 쿼리스트링으로 담게되는데, 자동으로 변경되는 것을 방지
+			success : (data) => {
+				console.log(data);
+			},
+			error : (status, err) => {
+				console.log(status);
+			}
+		})
+		
+		
+		}
+		
+	</script>	
+		
+	<img src="display?filename=20230719_163448.png&filepath=20230804&uuid=637af0dd-e178-4244-ac86-9f8fb239af34">
+	
+
+</body>
+</html>
