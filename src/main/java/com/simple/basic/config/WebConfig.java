@@ -1,16 +1,45 @@
 package com.simple.basic.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.simple.basic.controller.HomeController;
+import com.simple.basic.util.interceptor.UserAuthHandler;
 
 @Configuration //이 파일이 설정파일이라는 것을 알림
 public class WebConfig implements WebMvcConfigurer { //자바 빈 설정을 위해 상속
+	
+	//인터셉터로 사용할 클래스를 bean으로 생성
+	@Bean
+	public UserAuthHandler userAuthHandler() {
+		return new UserAuthHandler();
+	}
+
+	
+	//스프링설정에 인터셉터를 추가
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		
+		registry.addInterceptor(userAuthHandler())
+//		 		.addPathPatterns("/user/mypage")
+//		 		.addPathPatterns("/user/modify")
+//		 		.addPathPatterns("/memo/**")
+//		 		.addPathPatterns("/product/**")
+		 		.addPathPatterns("/user/**") //user로 시작하는 모든 요청검사
+		 		.excludePathPatterns("/user/login") //user/login제외
+		 		.excludePathPatterns("/user/loginForm"); //로그인메서드 제외	
+		
+		//인터셉터는 여러개가 있을수 있는데, 추가하면 됨
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 //	//IoC확인
 //	@Autowired
@@ -44,10 +73,10 @@ public class WebConfig implements WebMvcConfigurer { //자바 빈 설정을 위�
 	//2. 스프링 설정파일에 빈으로 등록
 	
 	//return 객체를 반환하는 모형을 만들면!! 빈으로 등록!
-	@Bean
-	public TestBean test2() {
-		TestBean b = new TestBean();
-		return b;
-	}
+//	@Bean
+//	public TestBean test2() {
+//		TestBean b = new TestBean();
+//		return b;
+//	}
 
 }
